@@ -1,0 +1,18 @@
+language: java
+jdk:
+  - openjdk11
+stages:
+  - tests-sonar
+  - deploy
+  
+jobs:
+include:
+- stage: demo-qr-code-api
+addons:
+  sonarcloud:
+    organization: "thepracticaldeveloper"
+before_script: cd sonar-connector
+script:
+  - mvn clean install sonar:sonar
+- stage: deploy
+script: echo "Deploying... (noop)"
