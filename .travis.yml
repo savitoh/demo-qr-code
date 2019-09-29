@@ -7,11 +7,11 @@ stages:
   
 jobs:
 include:
-- stage: demo-qr-code-api
+- stage: tests-sonar
 addons:
   sonarcloud:
-    organization: "thepracticaldeveloper"
-before_script: cd sonar-connector
+    organization: "savitoh"
+before_script: cd demo-qr-code-api
 script:
   - mvn clean install sonar:sonar
 - stage: deploy
