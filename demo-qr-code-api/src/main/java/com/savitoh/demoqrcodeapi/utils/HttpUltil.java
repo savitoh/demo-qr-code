@@ -6,6 +6,10 @@ import java.net.URL;
 
 public final class HttpUltil {
 
+    private HttpUltil() {
+
+    }
+
 
     public static boolean urlExists(final String url) throws IOException {
 

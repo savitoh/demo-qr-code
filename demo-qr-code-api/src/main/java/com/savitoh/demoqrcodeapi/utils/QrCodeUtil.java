@@ -11,14 +11,17 @@ import java.io.IOException;
 
 public final class QrCodeUtil {
 
+    private QrCodeUtil() {
+
+    }
+
     public static byte[] getQRCodeImageByteArray(String text, int width, int height)
-            throws WriterException, IllegalArgumentException, IOException {
+            throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
 
         ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
         MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
-        byte[] pngData = pngOutputStream.toByteArray();
-        return pngData;
+        return pngOutputStream.toByteArray();
     }
 }

@@ -22,9 +22,7 @@ public class QrCodeServiceImpl implements QrCodeService {
     private static final int DEFAULT_HEIGHT = 200;
 
     @Override
-    public byte[] genarateQrCodeFromUrl(final String url)
-            throws GenarateQrCodeException, UrlException {
-
+    public byte[] genarateQrCodeFromUrl(final String url) {
         verificaUrl(url);
         try {
            return QrCodeUtil.getQRCodeImageByteArray(url, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -39,7 +37,7 @@ public class QrCodeServiceImpl implements QrCodeService {
         return new byte[0];
     }
 
-    private void verificaUrl(final String url) throws UrlException {
+    private void verificaUrl(final String url) {
         final boolean urlExists;
         try {
            urlExists = HttpUltil.urlExists(url);
