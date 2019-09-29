@@ -1,6 +1,5 @@
-package com.savitoh.demoqrcode.ultil;
+package com.savitoh.demoqrcodeapi.utils;
 
-import com.savitoh.demoqrcodeapi.utils.HttpUltil;
 import org.junit.Assert;
 import org.junit.Test;
 

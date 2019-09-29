@@ -1,4 +1,4 @@
-package com.savitoh.demoqrcode.service;
+package com.savitoh.demoqrcodeapi.service;
 
 import com.savitoh.demoqrcodeapi.exceptions.data.UrlException;
 import com.savitoh.demoqrcodeapi.service.impl.QrCodeServiceImpl;

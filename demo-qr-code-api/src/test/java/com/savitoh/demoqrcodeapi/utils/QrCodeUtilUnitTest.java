@@ -1,7 +1,6 @@
-package com.savitoh.demoqrcode.ultil;
+package com.savitoh.demoqrcodeapi.utils;
 
 import com.google.zxing.WriterException;
-import com.savitoh.demoqrcodeapi.utils.QrCodeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 

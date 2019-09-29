@@ -1,4 +1,4 @@
-package com.savitoh.demoqrcode.resource;
+package com.savitoh.demoqrcodeapi.resource;
 
 public class QrCodeResourceIntegrationTesting {
 }

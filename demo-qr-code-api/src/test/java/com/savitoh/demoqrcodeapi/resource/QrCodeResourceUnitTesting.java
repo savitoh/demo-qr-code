@@ -1,7 +1,6 @@
-package com.savitoh.demoqrcode.resource;
+package com.savitoh.demoqrcodeapi.resource;
 
 import com.savitoh.demoqrcodeapi.exceptions.data.GenarateQrCodeException;
-import com.savitoh.demoqrcodeapi.resource.QrCodeResource;
 import com.savitoh.demoqrcodeapi.service.QrCodeService;
 import org.junit.Assert;
 import org.junit.Test;
