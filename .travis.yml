@@ -11,6 +11,8 @@ jobs:
     addons:
       sonarcloud:
         organization: "savitoh"
+        toke: 
+            secure: $SONAR_TOKEN
     before_script: cd demo-qr-code-api
     script:
       - mvn clean install sonar:sonar
