@@ -10,7 +10,6 @@ public final class HttpUltil {
 
     }
 
-
     public static boolean urlExists(final String url) throws IOException {
 
         final URL urlObject = new URL(url);

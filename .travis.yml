@@ -20,10 +20,7 @@ jobs:
     script: echo "Deploying... (noop)"
     
 notifications:
-  email:
-    recipients:
-        - $EMAIL_NOTIFICATION
-    on_success: always
-    on_failure: always
-
+  email: $EMAIL_NOTIFICATION
+  
+  
 
