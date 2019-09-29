@@ -16,6 +16,10 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<jacoco.version>0.8.4</jacoco.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.exclusions>**/resultbeans/*.java</sonar.exclusions>
+		<sonar.scm.provider>git</sonar.scm.provider>
 	</properties>
 
 	<dependencies>
