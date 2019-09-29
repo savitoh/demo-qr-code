@@ -18,4 +18,12 @@ jobs:
       - mvn clean install sonar:sonar
   - stage: deploy
     script: echo "Deploying... (noop)"
+    
+notifications:
+  email:
+    recipients:
+        - $EMAIL_NOTIFICATION
+    on_success: always
+    on_failure: always
+
 
