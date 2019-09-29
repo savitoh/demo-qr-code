@@ -6,13 +6,14 @@ stages:
   - deploy
   
 jobs:
-include:
-- stage: tests-sonar
-addons:
-  sonarcloud:
-    organization: "savitoh"
-before_script: cd demo-qr-code-api
-script:
-  - mvn clean install sonar:sonar
-- stage: deploy
-script: echo "Deploying... (noop)"
+  include:
+  - stage: tests-sonar
+    addons:
+      sonarcloud:
+        organization: "savitoh"
+    before_script: cd demo-qr-code-api
+    script:
+      - mvn clean install sonar:sonar
+  - stage: deploy
+    script: echo "Deploying... (noop)"
+
