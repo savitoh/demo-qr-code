@@ -1,6 +1,6 @@
 package com.savitoh.demoqrcodeapi.service;
 
-import com.savitoh.demoqrcodeapi.exceptions.data.UrlException;
+import com.savitoh.demoqrcodeapi.exceptions.data.URIUnknowException;
 import com.savitoh.demoqrcodeapi.service.impl.QrCodeServiceImpl;
 
 import org.junit.Assert;
@@ -30,7 +30,7 @@ public class QrcodeServiceUnitTest {
         Assert.assertTrue(qrCode.length > 0);
     }
 
-    @Test(expected = UrlException.class)
+    @Test(expected = URIUnknowException.class)
     public void throwExceptionWhenUriIsEmpty() {
 
         final var failUrl = "";
@@ -38,7 +38,7 @@ public class QrcodeServiceUnitTest {
         qrCodeService.genarateQrCodeFromUri(failUrl);
     }
 
-    @Test(expected = UrlException.class)
+    @Test(expected = URIUnknowException.class)
     public void throwExceptionWhenUriNonExistentUri() {
         
         final var failUrl = "http://googu.com.br/";
@@ -46,7 +46,7 @@ public class QrcodeServiceUnitTest {
         qrCodeService.genarateQrCodeFromUri(failUrl);
     }
 
-    @Test(expected = UrlException.class)
+    @Test(expected = URIUnknowException.class)
     public void throwExceptionWhenResourceNotFoundInUri() {
         
         final var notFoundResourceInURI = "http://www.example.com/xyz";
