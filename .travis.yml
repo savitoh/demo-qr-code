@@ -21,6 +21,7 @@ jobs:
       provider: heroku
       api_key:
         secure: FaFlig0w7UUR6hL6lox6O96Rx/y+Vc4afh3Nr8rswhpctU5yHmJdb4kExFdZ+3TW2TY9qUZ257hKcTn8yqHqsGm2KUau/PrFGdyveLyhXQ078XNJl3jp6HtXdhpuUtaN6J2hri13ZHpJALA+lNyVCk03UUGPHEGSNnvrRrPb3NUtou7885domlwB6rY1mn2KJ49+0Genk0YmgK/RGqI7nT8dYdrHYdmdlSRs1SkoWviiNF9YeH11pRdxb9DrUksDm505FniMMcZXA6BFp7GlMThek1xMqaLWxN5wL43kiaXCMheEU6LcV76vYcllzEcIQuKg8lRj392RptS0MDMc3JTNFr7MMlSk0eu3+lj8hDfRMPVc0oM67rCaEdQ8us1HCm446NAOfxQz5YyVl/j9JznK9oSO9F2IkLtEKfGtURuCVbTryZeutHZtB1btANlyR+LG2Vvd4081rHmOz60vww77nC93veihduR0W1NmB6K/EFrE58W+9IhvNNiUe1Nn51AXEkbyfsQd9nBqnEI8sgA6EbNdPFj96DEmLkb1ahmy+HZWCIWLK9ZBBFrGnrwetoPTC4vQkeemCUuhkPat6wnqvkPPxQzHwtuGKl5G16EH4Uk7YuixbdzYSX5p8MxtQMXSiPfCBldzUCZYmngmGxbRp3kgRnu98MlHAttKjJ8=      
+      app: demo-qr-code
       on:
         repo: savitoh/demo-qr-code
         branch: master
