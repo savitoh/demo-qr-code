@@ -1,4 +1,4 @@
-# Demo Qr Code 
+# Demo Qr Code
 
 [![Build Status](https://travis-ci.org/savitoh/demo-qr-code.svg?branch=master)](https://travis-ci.org/savitoh/demo-qr-code)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.savitoh:demo-qr-code&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.savitoh:demo-qr-code)
