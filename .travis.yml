@@ -13,7 +13,6 @@ jobs:
         toke:
           secure: oDaO3hPtFuEpMbJOl6ksPlgmB2jtNeWDLdliBc5+oqksMmckLKRudfETyUZlmmDiCDVskpS8GjlOOJ/MBtzu/iw223ANltvSo5lS56Ed+aWmVdrr6fYGqZCj5mGsum/VSrOj/juUfjr1IhJdB3GNUT26PBZX43LUmZySg+veefsPSAohtVpY8qgcOV/4bB8WfNtG2OLvZCSmzsf4rf9nDSlfMY9WClUfGrphYAPvaiBlaeQaIe9b+s9fW2yordfZl6PGpMVvk4nwiZIEQ2Z1GDoCKUxmIp4I6giF11ol0kJCSbDAx7fj+jI/KKtDJWATbBw69p7PnYuO9NSVyAPO4usrlCbWvy7OdMPKkmcyQOmkjP/WIPIvsp+O8ECjXolf60b2rgV/2b5aRde1HJlOBhuVGUOwkJ8AdFLDOG/nfx2XuF8OXSrFW1TLYk6rXGH/M1bgPgVQ0dDNT1jys0bn8AGhb71QhqqlJktnJCMHRDUZ5PmPqYmdOkfE8/P63fCrePrbIkL17V5ShX8xjFwg/vCqyZTBDE6DeKjjUDqMvXeTiv+8fYv6SMM85gU3BmLkoJtowM5xQhpiK0V3SHPX8dYALK5ppBIZDcP+iMDoHvYf8O/tBayq+uzwH4wfzNuKB8fB9qUbMZNZDLtIV29kUl6LJ/THF4McFovorgyPDz4=
     before_script: cd demo-qr-code-api
-    after_script: cd ..
     script:
     - mvn clean install sonar:sonar
   - stage: deploy
