@@ -2,13 +2,12 @@ package com.savitoh.demoqrcodeapi.service;
 
 import com.savitoh.demoqrcodeapi.exceptions.data.UrlException;
 import com.savitoh.demoqrcodeapi.service.impl.QrCodeServiceImpl;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-
-import java.util.Objects;
 
 
 public class QrcodeServiceUnitTest {
@@ -22,22 +21,36 @@ public class QrcodeServiceUnitTest {
     }
 
     @Test
-    public void genarateQrCodeFromValidUrl() {
+    public void genarateQrCodeFromValidUri() {
         final var validUrl = "https://www.journaldev.com/";
-        final byte[] qrCode = qrCodeService.genarateQrCodeFromUrl(validUrl);
-        Assert.assertTrue(Objects.nonNull(qrCode));
+
+        final byte[] qrCode = qrCodeService.genarateQrCodeFromUri(validUrl);
+        
+        Assert.assertNotNull(qrCode);
         Assert.assertTrue(qrCode.length > 0);
     }
 
     @Test(expected = UrlException.class)
-    public void deveLancarExcecaoQuandoUrlForVazia() {
+    public void throwExceptionWhenUriIsEmpty() {
+
         final var failUrl = "";
-        final byte[] qrCode = qrCodeService.genarateQrCodeFromUrl(failUrl);
+        
+        qrCodeService.genarateQrCodeFromUri(failUrl);
     }
 
     @Test(expected = UrlException.class)
-    public void deveLancarExcecaoQuandoUrlNaoExiste() {
+    public void throwExceptionWhenUriNonExistentUri() {
+        
         final var failUrl = "http://googu.com.br/";
-        final byte[] qrCode = qrCodeService.genarateQrCodeFromUrl(failUrl);
+        
+        qrCodeService.genarateQrCodeFromUri(failUrl);
+    }
+
+    @Test(expected = UrlException.class)
+    public void throwExceptionWhenResourceNotFoundInUri() {
+        
+        final var notFoundResourceInURI = "http://www.example.com/xyz";
+        
+        qrCodeService.genarateQrCodeFromUri(notFoundResourceInURI);
     }
 }

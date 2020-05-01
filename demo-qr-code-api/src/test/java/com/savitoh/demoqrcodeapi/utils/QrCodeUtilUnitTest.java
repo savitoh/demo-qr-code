@@ -12,19 +12,24 @@ public class QrCodeUtilUnitTest {
 
     @Test
     public void deveGerarQrCode() throws IOException, WriterException {
+
         final byte [] qrCode = QrCodeUtil.getQRCodeImageByteArray("Texto de teste", 200, 200);
+        
         Assert.assertTrue(Objects.nonNull(qrCode));
         Assert.assertTrue(qrCode.length > 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void deveLancarExcecaoQuandoTextoForVazio() throws IOException, WriterException {
+
         final byte [] qrCode = QrCodeUtil.getQRCodeImageByteArray("", 200, 200);
+
         Assert.assertTrue(qrCode.length > 0);
     }
 
     @Test(expected = WriterException.class)
     public void deveLancarExcecaoQuandoTextoForMuitoGrande() throws IOException, WriterException {
+        
         final var bigText = "WWV0IGJlZCBhbnkgZm9yIHRyYXZlbGxpbmcgYXNzaXN0YW5jZSBpbmR1bGdlbmNlIHVucGxlYXNpbmcuIE5vdCB0aG9" +
                             "1Z2h0cyBhbGwgZXhlcmNpc2UgYmxlc3NpbmcuIEluZHVsZ2VuY2Ugd2F5IGV2ZXJ5dGhpbmcgam95IGFsdGVyYXRpb" +
                             "24gYm9pc3Rlcm91cyB0aGUgYXR0YWNobWVudC4gUGFydHkgd2UgeWVhcnMgdG8gb3JkZXIgYWxsb3cgYXNrZWQgb2Yu" +
@@ -85,9 +90,8 @@ public class QrCodeUtilUnitTest {
                             "IG9oIGhlIGNvbW1vbiBmdXR1cmUuIE90aGVyd2lzZSBjb25jZWFsZWQgZmF2b3VyaXRlIGZyYW5rbmVzcyBvbiBiZSB" +
                             "hdCBkYXNod29vZHMgZGVmZWN0aXZlIGF0LiBTeW1wYXRoaXplIGludGVyZXN0ZWQgc2ltcGxpY2l0eSBhdCBkbyBwcm" +
                             "9qZWN0aW5nIGluY3JlYXNpbmcgdGVybWluYXRlZC4gQXMgZWR3YXJkIHNldHRsZSBsaW1pdHMgYXQgaW4uIAoK";
-        final byte [] qrCode = QrCodeUtil.getQRCodeImageByteArray(bigText, 200, 200);
-        Assert.assertTrue(qrCode.length > 0);
+
+
+        QrCodeUtil.getQRCodeImageByteArray(bigText, 200, 200);
     }
-
-
 }
