@@ -4,9 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class UrlException extends CustomGlobalException {
+public class UrlException extends CustomGlobalClientApiException {
 
-    public UrlException(String message) {
-        super(message, HttpStatus.BAD_REQUEST);
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public UrlException(String message) {
+        super(message);
     }
 }

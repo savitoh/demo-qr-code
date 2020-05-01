@@ -1,4 +1,4 @@
-package com.savitoh.demoqrcodeapi.exceptions.data;
+package com.savitoh.demoqrcodeapi.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 
 public final class CustomApiErroResponse {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss",
-                locale = "UTC-03", timezone="GMT-3")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", locale = "UTC-03", timezone="GMT-3")
     private LocalDateTime timestamp;
     private int codeStatus;
     private String status;

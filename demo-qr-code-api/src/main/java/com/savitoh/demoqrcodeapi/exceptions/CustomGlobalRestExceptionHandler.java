@@ -1,7 +1,6 @@
 package com.savitoh.demoqrcodeapi.exceptions;
 
-import com.savitoh.demoqrcodeapi.exceptions.data.CustomApiErroResponse;
-import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalException;
+import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalServerException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +45,8 @@ public final class CustomGlobalRestExceptionHandler extends ResponseEntityExcept
     }
 
 
-    @ExceptionHandler(CustomGlobalException.class)
-    public ResponseEntity<CustomApiErroResponse> handleGenarateQrCodeErro(CustomGlobalException ex) {
+    @ExceptionHandler(CustomGlobalServerException.class)
+    public ResponseEntity<CustomApiErroResponse> handleGenarateQrCodeErro(CustomGlobalServerException ex) {
         var httpStatus = ex.getHttpStatus();
         var responseErro = new CustomApiErroResponse.Builder()
                                                 .withCodeStatus(httpStatus.value())
