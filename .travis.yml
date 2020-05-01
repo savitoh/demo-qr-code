@@ -16,6 +16,7 @@ jobs:
     script:
     - mvn clean install sonar:sonar
   - stage: deploy
+    before_deploy: cd demo-qr-code-api
     deploy:
       provider: heroku
       api_key:
