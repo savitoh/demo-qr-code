@@ -12,9 +12,9 @@ public final class HttpUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static boolean urlExists(final String url) throws IOException {
+    public static boolean uriExists(final String uri) throws IOException {
 
-        final URL urlObject = new URL(url);
+        final URL urlObject = new URL(uri);
         HttpURLConnection huc = (HttpURLConnection) urlObject.openConnection();
         huc.setRequestMethod("HEAD");
         final int responseCode = huc.getResponseCode();
