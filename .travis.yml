@@ -1,26 +1,29 @@
 language: java
 jdk:
-  - openjdk11
+- openjdk11
 stages:
-  - tests-sonar
-  - deploy
-  
+- tests-sonar
+- deploy
 jobs:
   include:
   - stage: tests-sonar
     addons:
       sonarcloud:
-        organization: "savitoh"
-        toke: 
-            secure: "oDaO3hPtFuEpMbJOl6ksPlgmB2jtNeWDLdliBc5+oqksMmckLKRudfETyUZlmmDiCDVskpS8GjlOOJ/MBtzu/iw223ANltvSo5lS56Ed+aWmVdrr6fYGqZCj5mGsum/VSrOj/juUfjr1IhJdB3GNUT26PBZX43LUmZySg+veefsPSAohtVpY8qgcOV/4bB8WfNtG2OLvZCSmzsf4rf9nDSlfMY9WClUfGrphYAPvaiBlaeQaIe9b+s9fW2yordfZl6PGpMVvk4nwiZIEQ2Z1GDoCKUxmIp4I6giF11ol0kJCSbDAx7fj+jI/KKtDJWATbBw69p7PnYuO9NSVyAPO4usrlCbWvy7OdMPKkmcyQOmkjP/WIPIvsp+O8ECjXolf60b2rgV/2b5aRde1HJlOBhuVGUOwkJ8AdFLDOG/nfx2XuF8OXSrFW1TLYk6rXGH/M1bgPgVQ0dDNT1jys0bn8AGhb71QhqqlJktnJCMHRDUZ5PmPqYmdOkfE8/P63fCrePrbIkL17V5ShX8xjFwg/vCqyZTBDE6DeKjjUDqMvXeTiv+8fYv6SMM85gU3BmLkoJtowM5xQhpiK0V3SHPX8dYALK5ppBIZDcP+iMDoHvYf8O/tBayq+uzwH4wfzNuKB8fB9qUbMZNZDLtIV29kUl6LJ/THF4McFovorgyPDz4="
+        organization: savitoh
+        toke:
+          secure: oDaO3hPtFuEpMbJOl6ksPlgmB2jtNeWDLdliBc5+oqksMmckLKRudfETyUZlmmDiCDVskpS8GjlOOJ/MBtzu/iw223ANltvSo5lS56Ed+aWmVdrr6fYGqZCj5mGsum/VSrOj/juUfjr1IhJdB3GNUT26PBZX43LUmZySg+veefsPSAohtVpY8qgcOV/4bB8WfNtG2OLvZCSmzsf4rf9nDSlfMY9WClUfGrphYAPvaiBlaeQaIe9b+s9fW2yordfZl6PGpMVvk4nwiZIEQ2Z1GDoCKUxmIp4I6giF11ol0kJCSbDAx7fj+jI/KKtDJWATbBw69p7PnYuO9NSVyAPO4usrlCbWvy7OdMPKkmcyQOmkjP/WIPIvsp+O8ECjXolf60b2rgV/2b5aRde1HJlOBhuVGUOwkJ8AdFLDOG/nfx2XuF8OXSrFW1TLYk6rXGH/M1bgPgVQ0dDNT1jys0bn8AGhb71QhqqlJktnJCMHRDUZ5PmPqYmdOkfE8/P63fCrePrbIkL17V5ShX8xjFwg/vCqyZTBDE6DeKjjUDqMvXeTiv+8fYv6SMM85gU3BmLkoJtowM5xQhpiK0V3SHPX8dYALK5ppBIZDcP+iMDoHvYf8O/tBayq+uzwH4wfzNuKB8fB9qUbMZNZDLtIV29kUl6LJ/THF4McFovorgyPDz4=
     before_script: cd demo-qr-code-api
     script:
-      - mvn clean install sonar:sonar
+    - mvn clean install sonar:sonar
   - stage: deploy
+    deploy:
+      provider: heroku
+      deploy:
+        api_key:
+          secure: FaFlig0w7UUR6hL6lox6O96Rx/y+Vc4afh3Nr8rswhpctU5yHmJdb4kExFdZ+3TW2TY9qUZ257hKcTn8yqHqsGm2KUau/PrFGdyveLyhXQ078XNJl3jp6HtXdhpuUtaN6J2hri13ZHpJALA+lNyVCk03UUGPHEGSNnvrRrPb3NUtou7885domlwB6rY1mn2KJ49+0Genk0YmgK/RGqI7nT8dYdrHYdmdlSRs1SkoWviiNF9YeH11pRdxb9DrUksDm505FniMMcZXA6BFp7GlMThek1xMqaLWxN5wL43kiaXCMheEU6LcV76vYcllzEcIQuKg8lRj392RptS0MDMc3JTNFr7MMlSk0eu3+lj8hDfRMPVc0oM67rCaEdQ8us1HCm446NAOfxQz5YyVl/j9JznK9oSO9F2IkLtEKfGtURuCVbTryZeutHZtB1btANlyR+LG2Vvd4081rHmOz60vww77nC93veihduR0W1NmB6K/EFrE58W+9IhvNNiUe1Nn51AXEkbyfsQd9nBqnEI8sgA6EbNdPFj96DEmLkb1ahmy+HZWCIWLK9ZBBFrGnrwetoPTC4vQkeemCUuhkPat6wnqvkPPxQzHwtuGKl5G16EH4Uk7YuixbdzYSX5p8MxtQMXSiPfCBldzUCZYmngmGxbRp3kgRnu98MlHAttKjJ8=      
+      app: demo-qr-code
+      on:
+        repo: savitoh/demo-qr-code
     script: echo "Deploying... (noop)"
-    
 notifications:
-  email: $EMAIL_NOTIFICATION
-  
-  
-
+  email: "$EMAIL_NOTIFICATION"
