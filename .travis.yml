@@ -25,6 +25,7 @@ jobs:
       app: demo-qr-code
       on:
         repo: savitoh/demo-qr-code
+        branch: master
     script: echo "Deploying... (noop)"
 notifications:
   email: "$EMAIL_NOTIFICATION"
