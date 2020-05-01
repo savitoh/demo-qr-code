@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public final class HttpUltil {
+import org.springframework.http.HttpStatus;
 
-    private HttpUltil() {
+public final class HttpUtil {
 
+    private HttpUtil() {
+        throw new UnsupportedOperationException();
     }
 
     public static boolean urlExists(final String url) throws IOException {
@@ -15,8 +17,8 @@ public final class HttpUltil {
         final URL urlObject = new URL(url);
         HttpURLConnection huc = (HttpURLConnection) urlObject.openConnection();
         huc.setRequestMethod("HEAD");
-        final var responseCode = huc.getResponseCode();
+        final int responseCode = huc.getResponseCode();
 
-        return responseCode == 200 ? true : false;
+        return responseCode == HttpStatus.OK.value();
     }
 }
