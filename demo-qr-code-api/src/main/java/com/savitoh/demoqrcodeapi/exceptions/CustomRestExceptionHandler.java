@@ -1,5 +1,7 @@
 package com.savitoh.demoqrcodeapi.exceptions;
 
+import java.util.Optional;
+
 import javax.validation.ConstraintViolationException;
 
 import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalException;
@@ -7,6 +9,8 @@ import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,8 +51,10 @@ public final class CustomRestExceptionHandler extends ResponseEntityExceptionHan
 
 
     @ExceptionHandler(CustomGlobalException.class)
-    public ResponseEntity<CustomApiErroResponse> handleGenarateQrCodeErro(CustomGlobalException ex) {
-        var httpStatus = ex.getHttpStatus();
+    public ResponseEntity<CustomApiErroResponse> handleCustomGlobalException(@NonNull CustomGlobalException ex) {
+        Assert.notNull(ex, "CustomGlobalException não pode ser nullo");
+        var httpStatus = Optional.ofNullable(ex.getHttpStatus())
+            .orElse(HttpStatus.INTERNAL_SERVER_ERROR);
         var responseErro = new CustomApiErroResponse.Builder()
                                                 .withStatusCode(httpStatus.value())
                                                 .withStatus(httpStatus.name())

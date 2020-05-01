@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 public final class HttpUtil {
 
     private HttpUtil() {
-        throw new UnsupportedOperationException();
     }
 
     public static boolean uriExists(final String uri) throws IOException {

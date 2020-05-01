@@ -27,6 +27,7 @@ public class HttpUtilTest {
         Assert.assertFalse(uriIsValid);
     }
 
+
     @Test(expected = MalformedURLException.class)
     public void verivyUriWithMalFormedUri() throws IOException {
         final var urlMalFormed = "//www.journaldev.com/;";
