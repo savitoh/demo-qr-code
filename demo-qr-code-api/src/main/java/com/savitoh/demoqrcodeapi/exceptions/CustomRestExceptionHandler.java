@@ -1,6 +1,9 @@
 package com.savitoh.demoqrcodeapi.exceptions;
 
-import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalServerException;
+import javax.validation.ConstraintViolationException;
+
+import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
-
 @RestControllerAdvice
-public final class CustomGlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
+public final class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @Override
@@ -26,7 +27,7 @@ public final class CustomGlobalRestExceptionHandler extends ResponseEntityExcept
                                     .append(" obrigatório na url")
                                     .toString();
         var responseErro = new CustomApiErroResponse.Builder()
-                                                .withCodeStatus(status.value())
+                                                .withStatusCode(status.value())
                                                 .withStatus(status.name())
                                                 .withError(msgErro)
                                                 .build();
@@ -37,7 +38,7 @@ public final class CustomGlobalRestExceptionHandler extends ResponseEntityExcept
     public ResponseEntity<CustomApiErroResponse> handleConstraintViolationException(RuntimeException ex) {
         var httpStatus = HttpStatus.BAD_REQUEST;
         var responseErro = new CustomApiErroResponse.Builder()
-                                                .withCodeStatus(httpStatus.value())
+                                                .withStatusCode(httpStatus.value())
                                                 .withStatus(httpStatus.name())
                                                 .withError(ex.getLocalizedMessage())
                                                 .build();
@@ -45,11 +46,11 @@ public final class CustomGlobalRestExceptionHandler extends ResponseEntityExcept
     }
 
 
-    @ExceptionHandler(CustomGlobalServerException.class)
-    public ResponseEntity<CustomApiErroResponse> handleGenarateQrCodeErro(CustomGlobalServerException ex) {
+    @ExceptionHandler(CustomGlobalException.class)
+    public ResponseEntity<CustomApiErroResponse> handleGenarateQrCodeErro(CustomGlobalException ex) {
         var httpStatus = ex.getHttpStatus();
         var responseErro = new CustomApiErroResponse.Builder()
-                                                .withCodeStatus(httpStatus.value())
+                                                .withStatusCode(httpStatus.value())
                                                 .withStatus(httpStatus.name())
                                                 .withError(ex.getMessage())
                                                 .build();

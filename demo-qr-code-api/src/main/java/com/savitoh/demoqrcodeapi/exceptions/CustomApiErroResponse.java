@@ -1,20 +1,20 @@
 package com.savitoh.demoqrcodeapi.exceptions;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public final class CustomApiErroResponse {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", locale = "UTC-03", timezone="GMT-3")
     private LocalDateTime timestamp;
-    private int codeStatus;
+    private int statusCode;
     private String status;
     private String error;
 
-    private CustomApiErroResponse(int codeStatus, String status, String error) {
+    private CustomApiErroResponse(int statusCode, String status, String error) {
         this.timestamp = LocalDateTime.now();
-        this.codeStatus = codeStatus;
+        this.statusCode = statusCode;
         this.status = status;
         this.error = error;
     }
@@ -23,8 +23,8 @@ public final class CustomApiErroResponse {
         return timestamp;
     }
 
-    public int getCodeStatus() {
-        return codeStatus;
+    public int getStatusCode() {
+        return statusCode;
     }
 
     public String getStatus() {
@@ -36,13 +36,13 @@ public final class CustomApiErroResponse {
     }
 
     public static class Builder {
-        private int codeStatus;
+        private int statusCode;
         private String status;
         private String error;
 
 
-        public Builder withCodeStatus(int codeStatus) {
-            this.codeStatus = codeStatus;
+        public Builder withStatusCode(int statusCode) {
+            this.statusCode = statusCode;
             return this;
         }
 
@@ -57,7 +57,7 @@ public final class CustomApiErroResponse {
         }
 
         public CustomApiErroResponse build() {
-            return new CustomApiErroResponse(this.codeStatus, this.status, this.error);
+            return new CustomApiErroResponse(this.statusCode, this.status, this.error);
         }
     }
 
@@ -65,7 +65,7 @@ public final class CustomApiErroResponse {
     public String toString() {
         return "ApiErroResponse{" +
                 "timestamp=" + timestamp +
-                ", codeStatus=" + codeStatus +
+                ", codeStatus=" + statusCode +
                 ", status='" + status + '\'' +
                 ", error='" + error + '\'' +
                 '}';
