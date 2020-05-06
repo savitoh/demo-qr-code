@@ -1,7 +1,6 @@
 package com.savitoh.demoqrcodeapi.service;
 
 import com.savitoh.demoqrcodeapi.exceptions.data.URIUnknowException;
-import com.savitoh.demoqrcodeapi.service.impl.QrCodeServiceImpl;
 
 import org.junit.Assert;
 import org.junit.Before;
