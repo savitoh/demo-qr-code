@@ -1,1 +1,1 @@
-web: java -Dserver.port=8080 -Dspring.profiles.active="prod" -jar target/demo-qr-code-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -Dspring.profiles.active=$PROFILE -jar target/demo-qr-code-0.0.1-SNAPSHOT.jar
