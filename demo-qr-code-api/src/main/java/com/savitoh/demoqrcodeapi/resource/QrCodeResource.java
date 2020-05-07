@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 
 @RestController
-@RequestMapping("api/v1/qrcode")
+@RequestMapping("api/v1/qrcodes")
 public class QrCodeResource {
 
     private final QrCodeService qrCodeService;
