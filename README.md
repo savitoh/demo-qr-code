@@ -33,27 +33,29 @@ cd qrcode-generator-backend
 
 ### Rodando Localmente
 
-Acesse a pasta com o pom.xml:
+Acesse a pasta onde o pom.xml estar localizado:
 
 ```
 cd demo-qr-code-api
 ```
 
-Executando por meio do plugin do Spring Boot para Maven
+É possivél rodar a apliçação local por dois modos.
+
+1. Executando por meio do plugin do Spring Boot para o Maven
 
 ```
-mvn spring-boot:run
+    mvn spring-boot:run
 ```
 
-Executando a partir do .JAR. Rode os comandos abaixo:
+2. Executando a partir do .JAR empacotado. Rode os comandos abaixo:
 
 
 ```
-mvn clean package
+    mvn clean package
 ```
 
 ```
-java -jar target/gs-rest-service-0.1.0.jar
+    java -jar target/demo-qr-code.0.0.1-SNAPSHOT.jar
 ```
 
 ### Rodando os testes
