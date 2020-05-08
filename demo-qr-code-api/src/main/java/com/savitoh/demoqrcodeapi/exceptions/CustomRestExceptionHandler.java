@@ -21,23 +21,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public final class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
-                                                                          HttpHeaders headers,
-                                                                          HttpStatus status,
-                                                                          WebRequest request) {
-        final var msgErro = new StringBuilder("Parâmetro: ")
-                                    .append(ex.getParameterName())
-                                    .append(" obrigatório na url")
-                                    .toString();
-        var responseErro = new CustomApiErroResponse.Builder()
-                                                .withStatusCode(status.value())
-                                                .withStatus(status.name())
-                                                .withError(msgErro)
-                                                .build();
-        return new ResponseEntity<>(responseErro, status);
-    }
-
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<CustomApiErroResponse> handleConstraintViolationException(RuntimeException ex) {
         var httpStatus = HttpStatus.BAD_REQUEST;
