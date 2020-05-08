@@ -52,9 +52,7 @@ cd demo-qr-code-api
 
 ```
     mvn clean package
-```
 
-```
     java -jar target/demo-qr-code.0.0.1-SNAPSHOT.jar
 ```
 
