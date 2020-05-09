@@ -34,7 +34,7 @@ public class QrCodeServiceImpl implements QrCodeService {
                 throw  new URIUnknowException(String.format("A URL: %s não existe", uriTarget));
             }
         } catch (IOException e) {
-            throw new URIUnknowException(String.format("Não foi possível chegar a URL: %s", uriTarget));
+            throw new URIUnknowException(String.format("Não foi possível verificar a URL: %s", uriTarget));
         }
     }
 }

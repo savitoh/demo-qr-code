@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savitoh.demoqrcodeapi.exceptions.CustomApiErroResponse;
 import com.savitoh.demoqrcodeapi.exceptions.data.GenerateQrCodeException;
@@ -54,7 +55,7 @@ public class QrCodeResourceUnitTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void deveRetornarQrCodeNoResponseHeader() throws Exception {
+    public void deveRetornarQrCodeResponseHeader() throws Exception {
 
         QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
         Mockito.when(qrCodeService.genarateQrCodeFromUri(Mockito.anyString()))
@@ -76,10 +77,27 @@ public class QrCodeResourceUnitTest {
     }
 
     @Test
-    public void deveRetornarBadRequest() throws Exception {
+    public void deveRetornarBadRequestQuandoRequestPayloadForInvalido() throws Exception {
+        QrCodeResquestPayload qrCodeRequestPayloadInvalid = new QrCodeResquestPayload();
+        
+        final String messageErrorExpected = "#uriTarget nao pode ser nullo ou vazio";
+        mockMvc.perform(MockMvcRequestBuilders
+                .post(QR_CODE_URI_PATH)
+                .content(objectMapper.writeValueAsString(qrCodeRequestPayloadInvalid))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
+                .andExpect(jsonPath("$.error").value(messageErrorExpected))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
 
-        final String messageException = "Não foi possivel validar URI";
+    @Test
+    public void deveRetornarBadRequestQuandoNaoForPossivelValidarURL() throws Exception {
+
         QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
+        final String messageException = "Não foi possivel validar URI";
         Mockito.when(qrCodeService.genarateQrCodeFromUri(Mockito.anyString()))
                .thenThrow(new URIUnknowException(messageException));
 
@@ -93,16 +111,15 @@ public class QrCodeResourceUnitTest {
                 .andExpect(jsonPath("$.statusCode").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
                 .andExpect(jsonPath("$.error").value(messageException))
-                .andExpect(jsonPath("$.timestamp").exists());
-        
+                .andExpect(jsonPath("$.timestamp").exists());        
     }
 
 
     @Test
     public void deveRetornarServerErroQuandoGerarQrCodeLancarException() throws Exception {
 
-        final String messageException = "Erro ao Gerar QR CODE!";
         QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
+        final String messageException = "Erro ao Gerar QR CODE!";
         Mockito.when(qrCodeService.genarateQrCodeFromUri(Mockito.anyString()))
                .thenThrow(new GenerateQrCodeException(messageException));
         
