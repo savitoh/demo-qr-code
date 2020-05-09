@@ -1,12 +1,10 @@
 package com.savitoh.demoqrcodeapi.payload;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class QrCodeResquestPayload {
 
-	@NotNull
-	@NotBlank
+	@NotBlank(message = "#uriTarget nao pode ser nullo ou vazio")
 	private String uriTarget;
 	
 	/**
@@ -28,7 +26,5 @@ public class QrCodeResquestPayload {
 	public void setUriTarget(String uriTarget) {
 		this.uriTarget = uriTarget;
 	}
-
-	
-    
+   
 }
