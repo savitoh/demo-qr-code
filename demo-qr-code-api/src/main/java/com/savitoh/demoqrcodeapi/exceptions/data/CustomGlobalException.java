@@ -2,30 +2,20 @@ package com.savitoh.demoqrcodeapi.exceptions.data;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomGlobalException extends RuntimeException {
+public abstract class CustomGlobalException extends RuntimeException {
 
-	/**
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = 4528443300724557507L;
+    private static final long serialVersionUID = 8133098212662022841L;
 
 
-    private final String messageError;
-
-    private final HttpStatus httpStatus;
-
-    public CustomGlobalException(String message, HttpStatus httpStatus) {
+    public CustomGlobalException(String message) {
         super(message);
-        this.messageError = message;
-        this.httpStatus = httpStatus;
     }
 
-    public String getMessageError() {
-        return messageError;
-    }
+    public abstract String getMessageError();
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
+    public abstract HttpStatus getHttpStatus();
     
 }

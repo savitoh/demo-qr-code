@@ -1,8 +1,8 @@
 package com.savitoh.demoqrcodeapi.exceptions;
 
 import java.util.Optional;
-
-import javax.validation.ConstraintViolationException;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.savitoh.demoqrcodeapi.exceptions.data.CustomGlobalException;
 
@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -21,28 +22,41 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public final class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<CustomApiErroResponse> handleConstraintViolationException(RuntimeException ex) {
-        var httpStatus = HttpStatus.BAD_REQUEST;
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        final String resultMessage = ex.getBindingResult()
+            .getAllErrors()
+            .stream()
+            .map(ObjectError::getDefaultMessage)
+            .collect(Collectors.joining(" - "));
+
         var responseErro = new CustomApiErroResponse.Builder()
-                                                .withStatusCode(httpStatus.value())
-                                                .withStatus(httpStatus.name())
-                                                .withError(ex.getLocalizedMessage())
-                                                .build();
-        return new ResponseEntity<>(responseErro, httpStatus);
-    }
+            .withStatusCode(status.value())
+            .withStatus(status.name())
+            .withError(resultMessage)
+            .build();
+        
+        return new ResponseEntity<>(responseErro, status);
+	}
 
 
     @ExceptionHandler(CustomGlobalException.class)
-    public ResponseEntity<CustomApiErroResponse> handleCustomGlobalException(@NonNull CustomGlobalException ex) {
-        Assert.notNull(ex, "CustomGlobalException não pode ser nullo");
-        var httpStatus = Optional.ofNullable(ex.getHttpStatus())
+    public ResponseEntity<CustomApiErroResponse> handleCustomGlobalException(
+            @NonNull CustomGlobalException customGlobalException) {
+        
+        Assert.notNull(customGlobalException, "CustomGlobalException não pode ser nullo");
+    
+        var httpStatus = Optional.ofNullable(customGlobalException.getHttpStatus())
             .orElse(HttpStatus.INTERNAL_SERVER_ERROR);
+    
         var responseErro = new CustomApiErroResponse.Builder()
-                                                .withStatusCode(httpStatus.value())
-                                                .withStatus(httpStatus.name())
-                                                .withError(ex.getMessage())
-                                                .build();
+            .withStatusCode(httpStatus.value())
+            .withStatus(httpStatus.name())
+            .withError(customGlobalException.getMessageError())
+            .build();
+
         return new ResponseEntity<>(responseErro, httpStatus);
     }
 
