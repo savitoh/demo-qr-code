@@ -1,8 +1,14 @@
 package com.savitoh.demoqrcodeapi.exceptions;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 public final class CustomApiErroResponse {
 
@@ -55,6 +61,15 @@ public final class CustomApiErroResponse {
             this.error = error;
             return this;
         }
+
+        public Builder withError(@NonNull BindingResult bindingResult) {
+            Assert.notNull(bindingResult, "#bindingResult não pode ser nullo");
+            this.error = bindingResult.getAllErrors()
+                .stream()
+                .map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining(" - "));
+            return this;
+        }  
 
         public CustomApiErroResponse build() {
             return new CustomApiErroResponse(this.statusCode, this.status, this.error);
