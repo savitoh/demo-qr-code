@@ -32,10 +32,10 @@ public class CustomRestExceptionHandlerTest {
 
         ResponseEntity<CustomApiErroResponse> responseEntityErro = 
             customRestExceptionHandler.handleCustomGlobalException(generateQrCodeException);
-       
-            
+                   
         var responseErro = responseEntityErro.getBody();
         var httpStatusExpected = generateQrCodeException.getHttpStatus();
+       
         Assert.assertNotNull(responseEntityErro);
         Assert.assertTrue(responseEntityErro.hasBody());
         Assert.assertEquals(httpStatusExpected, responseEntityErro.getStatusCode());

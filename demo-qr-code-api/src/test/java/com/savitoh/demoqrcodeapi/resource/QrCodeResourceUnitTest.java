@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savitoh.demoqrcodeapi.exceptions.CustomApiErroResponse;
 import com.savitoh.demoqrcodeapi.exceptions.data.GenerateQrCodeException;
