@@ -1,6 +1,6 @@
 # QR Code Generator
 
-[![Build Status](https://travis-ci.org/savitoh/qr-code-generator-backend.svg?branch=master)](https://travis-ci.org/savitoh/qr-code-generator-backend.svg?branch=master)
+[![Build Status](https://travis-ci.org/savitoh/qrcode-generator-backend.svg?branch=master)](https://travis-ci.org/savitoh/qrcode-generator-backend.svg?branch=master)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.savitoh:demo-qr-code&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.savitoh:demo-qr-code)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.savitoh:demo-qr-code&metric=coverage)](https://sonarcloud.io/component_measures?id=com.savitoh:demo-qr-code&metric=coverage)
 
