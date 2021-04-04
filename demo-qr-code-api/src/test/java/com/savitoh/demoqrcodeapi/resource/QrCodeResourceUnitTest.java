@@ -34,7 +34,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;;
 @WebMvcTest(value = QrCodeResource.class)
 public class QrCodeResourceUnitTest {
 
-    private final static String QR_CODE_STRING_BASE_64_STRING = "�PNG\n" +
+    private static final String QR_CODE_STRING_BASE_64_STRING = "�PNG\n" +
             "\u001A\n" +
             "\u0000\u0000\u0000\n" +
             "IHDR\u0000\u0000\u0000�\u0000\u0000\u0000�\u0001\u0000\u0000\u0000\u0000�#�3\u0000\u0000\u0001!IDATx^�A��0\fD�*��M!�i��U�=v[U��U�Y`Qh�m,O& ���,��&7A��t��%���a�ѐ\u0011?S�\t\u0001\u007FR!!&����t�vQ6\u0012��͍�ho�;\u0015q���\n" +
@@ -42,7 +42,7 @@ public class QrCodeResourceUnitTest {
             "���B|\u0005��\b�!\u0012S44���a;\u0013�Պ�h��\u0004_L�� ��y\u001A�\u001EM���m\u0002b�[�2��;FKD<��\u001Co6�!U#�:j�4$:��\b�\u0013r\u0010<! \u001F[-yH~=ũ,q��\u0001\u0007q�{�!�%����\u0016\bm�'�r�\u000F�C��i8\u0007�aq�$�G�<�s��&��\"\u007FlW,�8\u001EE\n" +
             "\u0000\u0000\u0000\u0000IEND�B`�";
 
-    private final static String QR_CODE_URI_PATH = "/api/v1/qrcodes";
+    private static final String QR_CODE_URI_PATH = "/api/v1/qrcodes";
 
     @Autowired
     private MockMvc mockMvc;
@@ -77,12 +77,15 @@ public class QrCodeResourceUnitTest {
 
     @Test
     public void deveRetornarBadRequestQuandoRequestPayloadForInvalido() throws Exception {
-        QrCodeResquestPayload qrCodeRequestPayloadInvalid = new QrCodeResquestPayload();
+        final String invalidqrCodeRequestPayload =
+                "{\n" +
+                "   \"uriTarget\":\"\"\n" +
+                "}";
         
-        final String messageErrorExpected = "#uriTarget nao pode ser nullo ou vazio";
+        final String messageErrorExpected = "#uriTarget não pode ser nullo ou vazio";
         mockMvc.perform(MockMvcRequestBuilders
                 .post(QR_CODE_URI_PATH)
-                .content(objectMapper.writeValueAsString(qrCodeRequestPayloadInvalid))
+                .content(invalidqrCodeRequestPayload)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
