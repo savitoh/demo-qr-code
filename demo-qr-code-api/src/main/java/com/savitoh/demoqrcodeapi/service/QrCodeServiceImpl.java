@@ -1,14 +1,13 @@
 package com.savitoh.demoqrcodeapi.service;
 
-import java.io.IOException;
-
 import com.google.zxing.WriterException;
 import com.savitoh.demoqrcodeapi.exceptions.data.GenerateQrCodeException;
-import com.savitoh.demoqrcodeapi.exceptions.data.URIUnknowException;
-import com.savitoh.demoqrcodeapi.utils.HttpUtil;
 import com.savitoh.demoqrcodeapi.utils.QrCodeUtil;
-
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.io.IOException;
 
 @Service
 public class QrCodeServiceImpl implements QrCodeService {
@@ -18,23 +17,12 @@ public class QrCodeServiceImpl implements QrCodeService {
     private static final int DEFAULT_HEIGHT = 200;
 
     @Override
-    public byte[] genarateQrCodeFromUri(final String uriTarget) {
+    public byte[] genarateQrCodeFromUri(final @NonNull String uriTarget) {
+        Assert.notNull(uriTarget, "uriTarget Não pode ser nulla");
         try {
-            checkIfUriExists(uriTarget);
             return QrCodeUtil.getQRCodeImageByteArray(uriTarget, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        } catch (WriterException | IllegalArgumentException | IOException e) {
+        } catch (WriterException | IOException e) {
             throw new GenerateQrCodeException("Erro na geração do QrCode: " + e.getLocalizedMessage());
-        }
-    }
-
-    private void checkIfUriExists(final String uriTarget) {
-        try {
-           final boolean urlExists = HttpUtil.uriExists(uriTarget);
-           if(!urlExists) {
-                throw  new URIUnknowException(String.format("A URL: %s não existe", uriTarget));
-            }
-        } catch (IOException e) {
-            throw new URIUnknowException(String.format("Não foi possível verificar a URL: %s", uriTarget));
         }
     }
 }

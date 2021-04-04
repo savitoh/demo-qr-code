@@ -1,12 +1,16 @@
 package com.savitoh.demoqrcodeapi.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.savitoh.demoqrcodeapi.validation.UrlExists;
+import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotBlank;
 
 public class QrCodeResquestPayload {
 
-	@NotBlank(message = "#uriTarget não pode ser nullo ou vazio")
+	@UrlExists(message = "URL não pôde ser acessada com sucesso.")
+	@URL(message = "URL não possui formato válido.")
+	@NotBlank(message = "URL não pode ser nulla ou vazia.")
 	private final String uriTarget;
 
 	public QrCodeResquestPayload(@JsonProperty("uriTarget") final String uriTarget) {

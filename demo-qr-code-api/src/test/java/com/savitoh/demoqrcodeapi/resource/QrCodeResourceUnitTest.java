@@ -1,21 +1,12 @@
 package com.savitoh.demoqrcodeapi.resource;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savitoh.demoqrcodeapi.exceptions.CustomApiErroResponse;
 import com.savitoh.demoqrcodeapi.exceptions.data.GenerateQrCodeException;
-import com.savitoh.demoqrcodeapi.exceptions.data.URIUnknowException;
 import com.savitoh.demoqrcodeapi.payload.QrCodeResquestPayload;
 import com.savitoh.demoqrcodeapi.service.QrCodeService;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,12 +18,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = QrCodeResource.class)
 public class QrCodeResourceUnitTest {
+
+    private static final String FAKE_URL = "http://www.fake-site.com/";
 
     private static final String QR_CODE_STRING_BASE_64_STRING = "�PNG\n" +
             "\u001A\n" +
@@ -50,15 +52,17 @@ public class QrCodeResourceUnitTest {
     @MockBean
     private QrCodeService qrCodeService;
 
+    @MockBean
+    private RestTemplate restTemplate;
+
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     public void deveRetornarQrCodeResponseHeader() throws Exception {
-
-        QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
-        Mockito.when(qrCodeService.genarateQrCodeFromUri(Mockito.anyString()))
-                .thenReturn(QR_CODE_STRING_BASE_64_STRING.getBytes());
+        final var qrCodeResquestPayloadMock = new QrCodeResquestPayload(FAKE_URL);
+        when(qrCodeService.genarateQrCodeFromUri(FAKE_URL)).thenReturn(QR_CODE_STRING_BASE_64_STRING.getBytes());
+        when(restTemplate.headForHeaders(FAKE_URL)).thenReturn(HttpHeaders.EMPTY);
         
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(QR_CODE_URI_PATH)
             .content(objectMapper.writeValueAsString(qrCodeResquestPayloadMock))
@@ -70,19 +74,19 @@ public class QrCodeResourceUnitTest {
         MockHttpServletResponse response = result.getResponse();
 
 
-        Assert.assertTrue(response.containsHeader(HttpHeaders.CONTENT_DISPOSITION));
-        Assert.assertNotNull(response.getOutputStream());
-        Assert.assertEquals(MediaType.IMAGE_PNG_VALUE, response.getContentType());
+        assertTrue(response.containsHeader(HttpHeaders.CONTENT_DISPOSITION));
+        assertNotNull(response.getOutputStream());
+        assertEquals(MediaType.IMAGE_PNG_VALUE, response.getContentType());
     }
 
     @Test
     public void deveRetornarBadRequestQuandoRequestPayloadForInvalido() throws Exception {
-        final String invalidqrCodeRequestPayload =
+        final var invalidqrCodeRequestPayload =
                 "{\n" +
                 "   \"uriTarget\":\"\"\n" +
                 "}";
         
-        final String messageErrorExpected = "#uriTarget não pode ser nullo ou vazio";
+        final var messageErrorExpected = "URL não pode ser nulla ou vazia.";
         mockMvc.perform(MockMvcRequestBuilders
                 .post(QR_CODE_URI_PATH)
                 .content(invalidqrCodeRequestPayload)
@@ -96,13 +100,9 @@ public class QrCodeResourceUnitTest {
     }
 
     @Test
-    public void deveRetornarBadRequestQuandoNaoForPossivelValidarURL() throws Exception {
-
-        QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
-        final String messageException = "Não foi possivel validar URI";
-        Mockito.when(qrCodeService.genarateQrCodeFromUri(Mockito.anyString()))
-               .thenThrow(new URIUnknowException(messageException));
-
+    public void deveRetornarBadRequestQuandoURLMalFormatada() throws Exception {
+        final QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
+        final var messageException = "URL não possui formato válido.";
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post(QR_CODE_URI_PATH)
@@ -118,12 +118,10 @@ public class QrCodeResourceUnitTest {
 
 
     @Test
-    public void deveRetornarServerErroQuandoGerarQrCodeLancarException() throws Exception {
-
-        QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload("Teste");
-        final String messageException = "Erro ao Gerar QR CODE!";
-        Mockito.when(qrCodeService.genarateQrCodeFromUri(Mockito.anyString()))
-               .thenThrow(new GenerateQrCodeException(messageException));
+    public void deveRetornarServerErroQuandoGerarQrCodeSubirException() throws Exception {
+        QrCodeResquestPayload qrCodeResquestPayloadMock = new QrCodeResquestPayload(FAKE_URL);
+        final var messageException = "Erro ao Gerar QR CODE!";
+        when(qrCodeService.genarateQrCodeFromUri(FAKE_URL)).thenThrow(new GenerateQrCodeException(messageException));
         
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(QR_CODE_URI_PATH)
             .content(objectMapper.writeValueAsString(qrCodeResquestPayloadMock))
@@ -133,16 +131,16 @@ public class QrCodeResourceUnitTest {
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
-        CustomApiErroResponse customApiErroResponse = 
-            objectMapper.readValue(response.getContentAsString(), CustomApiErroResponse.class);
+        CustomApiErroResponse customApiErroResponse =
+                objectMapper.readValue(response.getContentAsString(), CustomApiErroResponse.class);
         
         
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        Assert.assertNotNull(customApiErroResponse);
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), customApiErroResponse.getStatusCode());
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.name(), customApiErroResponse.getStatus());
-        Assert.assertEquals(messageException, customApiErroResponse.getError());
-        Assert.assertTrue(customApiErroResponse.getTimestamp().isBefore(LocalDateTime.now()));
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+        assertNotNull(customApiErroResponse);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), customApiErroResponse.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.name(), customApiErroResponse.getStatus());
+        assertEquals(messageException, customApiErroResponse.getError());
+        assertTrue(customApiErroResponse.getTimestamp().isBefore(LocalDateTime.now()));
     }
 
 }
